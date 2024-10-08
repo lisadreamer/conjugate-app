@@ -57,5 +57,5 @@ export default function Footer({}) {
         Read our docs
       </a>
     </footer>
-  )
+  );
 }

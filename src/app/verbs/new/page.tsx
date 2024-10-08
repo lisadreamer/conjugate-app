@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
-import {db} from "@/db";
+import { db } from "@/db";
 
-export default function VerbCreate() {
+export default function VerbCreatePage() {
   async function createVerb(formData: FormData) {
     "use server"; // treat this as server action
 
