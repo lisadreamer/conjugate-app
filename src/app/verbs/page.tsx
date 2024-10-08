@@ -19,15 +19,19 @@ export default async function VerbsPage() {
   return (
     <div>
       <Hero title="Conjugate a verb" imgAlt="welding" imgData={verbImg} />
-      <div className="flex flex-col gap-4 justify-center items-center p-8">
-        <h2 className="text-2xl font-bold">Verbs:</h2>
+
+      <div className="flex flex-col gap-4 p-8 mx-20 mb-52">
+        <div className="flex justify-between items-center m-2">
+          <h1 className="text-2xl font-bold">Verbs:</h1>
+          <Link
+            href="/verbs/new"
+            className="bg-green-500 rounded px-4 py-2 text-white"
+          >
+            Create
+          </Link>
+        </div>
+
         <div className="flex flex-wrap gap-4 pb-2">{verbsList}</div>
-        <Link
-          href="/verbs/new"
-          className="bg-green-500 rounded px-4 py-2 text-white"
-        >
-          Create
-        </Link>
       </div>
     </div>
   );
