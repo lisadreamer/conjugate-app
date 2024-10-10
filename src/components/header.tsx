@@ -1,11 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
-  //todo: determine which page is it and set whiteBg accordingly
-  const whiteBg = true;
+  const currentPath = usePathname();
+  const rootPaths = ["/", "/verbs", "/nouns", "/adjs"].includes(currentPath);
 
   return (
-    <div className={`w-full z-10 ${whiteBg ? "" : "absolute text-white"}`}>
+    <div className={`w-full z-10 ${rootPaths ? "absolute text-white" : "bg-blue-100 text-gray-600"}`}>
       <nav className="container relative flex flex-wrap items-center justify-between mx-auto p-8">
         <Link href="/" className="font-bold text-3xl">
           Sahyl

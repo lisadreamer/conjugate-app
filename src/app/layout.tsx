@@ -25,7 +25,6 @@ export default function RootLayout(
   }>
 ) {
   const { children } = props;
-  //console.log(props);
 
   return (
     <html lang="en">
