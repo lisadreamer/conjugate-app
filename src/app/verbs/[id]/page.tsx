@@ -41,9 +41,19 @@ export default async function VerbShowPage(props: VerbShowPageProps) {
         </div>
       </div>
 
-      <div className="m-4">
+      <div className="m-4 flex gap-4">
+        <h2 className="italic">Description:</h2>
         <p>{verb.description}</p>
       </div>
     </div>
   );
+}
+
+// this caching thing is solely production thing
+export async function generateStaticParams() {
+  const verbs = await db.verb.findMany();
+
+  return verbs.map((verb) => ({
+    id: verb.id.toString(),
+  }));
 }
