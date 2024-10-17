@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Hero from "@/components/hero";
 import { db } from "@/db";
-import verbImg from "public/images/performance.jpg";
+import verbImg from "public/images/home_screen2.jpg";
 
 export default async function VerbsPage() {
   const verbs = await db.verb.findMany();

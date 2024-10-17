@@ -13,7 +13,7 @@ export default function Header() {
         <Link href="/" className="font-bold text-3xl">
           Sahyl
         </Link>
-        <div className="space-x-4 text-xl">
+        <div className="space-x-4 text-xl font-bold">
           <Link href="/verbs">Verbs</Link>
           <Link href="/nouns">Nouns</Link>
           <Link href="/adjs">Adjectives</Link>
