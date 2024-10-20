@@ -1,4 +1,4 @@
-import adjImg from "public/images/scale.jpg";
+import adjImg from "public/images/adj_bg.jpg";
 import Hero from "@/components/hero";
 
 export default function AdjsPage() {
