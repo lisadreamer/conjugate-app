@@ -1,5 +1,5 @@
 import Hero from "@/components/hero";
-import homeImg from "public/images/home_screen.jpg";
+import homeImg from "public/images/fox_frontpage.jpg";
 
 export default function Home() {
   return (

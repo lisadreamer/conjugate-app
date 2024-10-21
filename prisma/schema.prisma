@@ -14,4 +14,38 @@ model Verb {
   id Int @id @default(autoincrement())
   title String
   description String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Conjugation Conjugation[]
+}
+
+model Tense {
+  id Int @id @default(autoincrement())
+  name String
+  isActive Boolean
+  order Int @default(0)
+
+  Conjugation Conjugation[]
+}
+
+model Conjugation {
+  id Int @id @default(autoincrement())
+  verbId Int
+  tenseId Int
+  pronoun1 String
+  pronoun2 String
+  pronoun3 String
+  pronoun4 String
+  pronoun5 String
+  pronoun6 String
+
+  verb Verb @relation(fields: [verbId], references: [id])
+  tense Tense @relation(fields: [tenseId], references: [id])
+}
+
+model Pronoun {
+  id Int @id @default(autoincrement())
+  name String
 }

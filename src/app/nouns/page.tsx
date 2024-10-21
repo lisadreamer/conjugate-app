@@ -1,4 +1,4 @@
-import nounImg from "public/images/nouns_bg.jpg";
+import nounImg from "public/images/animalswithbook.jpg";
 import Hero from "@/components/hero";
 
 export default function NounsPage() {
