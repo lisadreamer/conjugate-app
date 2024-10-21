@@ -1,9 +1,16 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Tense, Pronoun, Conjugation } from "@prisma/client";
 import { db } from "@/db";
 import { deleteVerb } from "@/actions";
 
-function TenseView({ tense, pronouns, conjugations }) {
+interface TenseViewProps {
+  tense: Tense;
+  pronouns: Pronoun[];
+  conjugations: Conjugation[];
+}
+
+function TenseView({ tense, pronouns, conjugations }: TenseViewProps) {
   const conjugation = conjugations.find((i) => i.tenseId === tense.id);
 
   return (
@@ -51,15 +58,17 @@ export default async function VerbShowPage(props: VerbShowPageProps) {
       acc[key].push(tense);
       return acc;
     },
-    { active: [], passive: [] }
+    { active: [], passive: [] } as Record<string, Tense[]>
   );
-  console.log(groupedTenses);
 
   const pronounsArr = await db.pronoun.findMany();
-  const pronouns = pronounsArr.reduce((acc, pronoun) => {
-    acc[pronoun.id] = pronoun.name;
-    return acc;
-  }, {});
+  const pronouns = pronounsArr.reduce(
+    (acc: Record<number, string>, pronoun: Pronoun) => {
+      acc[pronoun.id] = pronoun.name;
+      return acc;
+    },
+    {}
+  );
 
   if (!verb) {
     return notFound();

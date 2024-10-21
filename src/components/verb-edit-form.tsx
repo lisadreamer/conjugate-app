@@ -25,7 +25,7 @@ export default function VerbEditForm({ verb }: VerbEditFormProps) {
       </h1>
       <div className="flex gap-4">
         <label className="w-20" htmlFor="description">
-          Description:
+          Translation:
         </label>
         <textarea
           id="description"
