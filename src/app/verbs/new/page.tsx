@@ -7,7 +7,7 @@ export default function VerbCreatePage() {
   const [formState, action] = useFormState(createVerb, { message: "" });
 
   return (
-    <div className="container mx-auto px-12">
+    <div className="px-40 py-40 flex flex-col gap-8">
       <form action={action}>
         <h1 className="text-2xl my-5">Create a verb</h1>
         <div className="flex flex-col gap-4">
@@ -33,11 +33,20 @@ export default function VerbCreatePage() {
             />
           </div>
 
-          {formState.message ? <div className="bg-red-200 border rounded border-red-400 p-2 ">{formState.message}</div> : null}
+          {formState.message ? (
+            <div className="bg-red-200 border rounded border-red-400 p-2 ">
+              {formState.message}
+            </div>
+          ) : null}
 
-          <button type="submit" className="rounded bg-blue-200 p-2">
-            Create
-          </button>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="rounded bg-green-500 py-2 px-4 text-white"
+            >
+              Create
+            </button>
+          </div>
         </div>
       </form>
     </div>

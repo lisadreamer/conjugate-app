@@ -1,32 +1,9 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import type { Tense, Pronoun, Conjugation } from "@prisma/client";
+import type { Pronoun, Tense } from "@prisma/client";
 import { db } from "@/db";
 import { deleteVerb } from "@/actions";
-
-interface TenseViewProps {
-  tense: Tense;
-  pronouns: Pronoun[];
-  conjugations: Conjugation[];
-}
-
-function TenseView({ tense, pronouns, conjugations }: TenseViewProps) {
-  const conjugation = conjugations.find((i) => i.tenseId === tense.id);
-
-  return (
-    <div className="px-4 py-2 rounded flex flex-col gap-2 bg-pink-100 shadow-lg">
-      <h2 className="text-xl">{tense.name}</h2>
-      <div>
-        {[1, 2, 3, 4, 5, 6].map((i) => (
-          <div key={i} className="grid grid-cols-[1fr_2fr] gap-1">
-            <p>{pronouns[i]}</p>
-            <p>{conjugation ? conjugation[`pronoun${i}`] : "-"}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+import TenseView from "@/components/tense-view";
 
 interface VerbShowPageProps {
   params: {
@@ -77,7 +54,7 @@ export default async function VerbShowPage(props: VerbShowPageProps) {
   const deleteVerbAction = deleteVerb.bind(null, id);
 
   return (
-    <div className="px-40 py-20 h-screen flex flex-col gap-8">
+    <div className="px-40 py-40 flex flex-col gap-8">
       <div className="flex flex-col">
         <div className="flex justify-center">
           <h1 className="text-3xl font-bold capitalize">{verb.title}</h1>
@@ -102,9 +79,9 @@ export default async function VerbShowPage(props: VerbShowPageProps) {
         <p>{verb.description}</p>
       </div>
 
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col gap-8">
         {Object.keys(groupedTenses).map((category) => (
-          <div key={category} className="flex flex-col gap-4">
+          <div key={category} className="flex flex-col gap-4 py-4">
             <h2 className="text-xl font-bold capitalize">{category}</h2>
             <div className="grid grid-cols-4 gap-4">
               {groupedTenses[category].map((tense) => (

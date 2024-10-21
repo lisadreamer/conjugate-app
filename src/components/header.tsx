@@ -2,13 +2,36 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export default function Header() {
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
   const currentPath = usePathname();
   const rootPaths = ["/", "/verbs", "/nouns", "/adjs"].includes(currentPath);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScrollY(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
+
   return (
-    <div className={`w-full z-10 ${rootPaths ? "absolute text-white" : "bg-blue-100 text-gray-600"}`}>
+    <div
+      className={`w-full z-50 fixed transition-transform duration-300 ${isVisible ? "translate-y-0" : "-translate-y-full"} ${rootPaths ? "absolute text-white" : "bg-blue-100 text-gray-600"}`}
+    >
       <nav className="container relative flex flex-wrap items-center justify-between mx-auto p-8">
         <Link href="/" className="font-bold text-3xl">
           Sahil
