@@ -2,7 +2,7 @@ import type { Conjugation, Pronoun, Tense } from "@prisma/client";
 
 interface TenseViewProps {
   tense: Tense;
-  pronouns: Pronoun[];
+  pronouns: Record<number, string>;
   conjugations: Conjugation[];
 }
 
