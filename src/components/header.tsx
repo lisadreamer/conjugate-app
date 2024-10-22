@@ -31,10 +31,10 @@ export default function Header() {
 
   return (
     <div
-      className={`w-full z-50 fixed transition-transform duration-300 ${isVisible ? "translate-y-0" : "-translate-y-full"} ${rootPaths ? "absolute text-white" : "bg-blue-100 text-gray-600"}`}
+      className={`w-full z-50 fixed transition-transform duration-300 ${isVisible ? "translate-y-0" : "-translate-y-full"} ${rootPaths ? "absolute text-white" : "bg-blue-100 text-gray-600 shadow-md"}`}
     >
-      <div className=" flex justify-between mx-8">
-        <nav className="flex items-center gap-8 p-8">
+      <div className=" flex justify-between mx-8 p-2">
+        <nav className="flex place-items-baseline gap-16 p-4">
           <Link href="/" className="font-bold text-3xl">
             Sahil
           </Link>
