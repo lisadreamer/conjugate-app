@@ -2,9 +2,18 @@ import { PrismaClient } from "@prisma/client";
 
 export const db = new PrismaClient();
 
-/*db.verb.create({
-  data: {
-    title: "test",
-    description: "test",
-  },
-});*/
+async function main() {
+  const verbs = await db.verb.findMany();
+  console.log(verbs);
+}
+
+/*main()
+  .then(async () => {
+    await db.$disconnect()
+  })
+  .catch(async (e) => {
+    console.error(e)
+    await db.$disconnect()
+    process.exit(1)
+  })*/
+
