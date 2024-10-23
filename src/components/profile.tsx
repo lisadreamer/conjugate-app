@@ -1,18 +1,24 @@
-"use client";
+'use client'
 
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn, signOut } from 'next-auth/react'
 
 export default function Profile() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession()
+
+  if (status === 'loading') {
+    return null
+  }
 
   return (
     <div className="flex gap-4 items-center">
       {session?.user ? (
         <>
           <div className="flex gap-2 items-center">
-            {session.user.image && (
-              <img src={session.user.image} className="w-8 h-8 rounded-full" alt="profie avatar" />
-            )}
+            <img
+              src={session.user.image || ''}
+              className="w-8 h-8 rounded-full"
+              alt="profie avatar"
+            />
             <p>{session.user.name}</p>
           </div>
           <button
@@ -39,5 +45,5 @@ export default function Profile() {
         </>
       )}
     </div>
-  );
+  )
 }
