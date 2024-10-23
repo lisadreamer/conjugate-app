@@ -10,7 +10,7 @@ if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
   throw new Error("Missing GITHUB OAuth credentials");
 }
 
-export default NextAuth({
+export const authOptions = {
   adapter: PrismaAdapter(db),
   providers: [
     GithubProvider({
@@ -27,4 +27,6 @@ export default NextAuth({
       return session;
     },
   },
-});
+}
+
+export default NextAuth(authOptions);
