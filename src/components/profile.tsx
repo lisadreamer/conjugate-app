@@ -1,6 +1,7 @@
 'use client'
 
 import { useSession, signIn, signOut } from 'next-auth/react'
+import { Avatar } from '@nextui-org/react'
 
 export default function Profile() {
   const { data: session, status } = useSession()
@@ -14,11 +15,7 @@ export default function Profile() {
       {session?.user ? (
         <>
           <div className="flex gap-2 items-center">
-            <img
-              src={session.user.image || ''}
-              className="w-8 h-8 rounded-full"
-              alt="profie avatar"
-            />
+            <Avatar src={session.user.image || ''} />
             <p>{session.user.name}</p>
           </div>
           <button

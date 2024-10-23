@@ -20,12 +20,12 @@ export const authOptions = {
   ],
   callbacks: {
     // temporary: fixing bug currently in next auth
-    async session({ session, user }: any) {
+    /*async session({ session, user }: any) {
       if (session && user) {
         session.user.id = user.id;
       }
       return session;
-    },
+    },*/
   },
 }
 

@@ -1,7 +1,7 @@
 import { useSession, signIn } from 'next-auth/react'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 
-const ProtectedPage = ({ children }) => {
+const ProtectedPage: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { data: session, status } = useSession()
 
   useEffect(() => {
