@@ -1,19 +1,24 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import type { Pronoun, Tense } from "@prisma/client";
-import { db } from "@/db";
-import { deleteVerb } from "@/actions";
-import TenseView from "@/components/tense-view";
+import { notFound } from 'next/navigation'
+import Link from 'next/link'
+import { getServerSession } from 'next-auth'
+import type { Pronoun, Tense } from '@prisma/client'
+
+import { db } from '@/db'
+import { deleteVerb } from '@/actions'
+import TenseView from '@/components/tense-view'
+import { authOptions } from '@/auth'
 
 interface VerbShowPageProps {
   params: {
-    id: string;
-  };
+    id: string
+  }
 }
 
 export default async function VerbShowPage(props: VerbShowPageProps) {
-  const { params } = props;
-  const id = parseInt(params.id);
+  const { params } = props
+  const id = parseInt(params.id)
+
+  const session = await getServerSession(authOptions)
 
   const verb = await db.verb.findFirst({
     where: { id: id },
@@ -22,36 +27,36 @@ export default async function VerbShowPage(props: VerbShowPageProps) {
         include: { tense: true },
       },
     },
-  });
+  })
 
-  const tenses = await db.tense.findMany({ orderBy: { order: "asc" } });
+  const tenses = await db.tense.findMany({ orderBy: { order: 'asc' } })
 
   const groupedTenses = tenses.reduce(
     (acc, tense) => {
-      const key = tense.isActive ? "active" : "passive";
+      const key = tense.isActive ? 'active' : 'passive'
       if (!acc[key]) {
-        acc[key] = [];
+        acc[key] = []
       }
-      acc[key].push(tense);
-      return acc;
+      acc[key].push(tense)
+      return acc
     },
     { active: [], passive: [] } as Record<string, Tense[]>
-  );
+  )
 
-  const pronounsArr = await db.pronoun.findMany();
+  const pronounsArr = await db.pronoun.findMany()
   const pronouns = pronounsArr.reduce(
     (acc: Record<number, string>, pronoun: Pronoun) => {
-      acc[pronoun.id] = pronoun.name;
-      return acc;
+      acc[pronoun.id] = pronoun.name
+      return acc
     },
     {}
-  );
+  )
 
   if (!verb) {
-    return notFound();
+    return notFound()
   }
 
-  const deleteVerbAction = deleteVerb.bind(null, id);
+  const deleteVerbAction = deleteVerb.bind(null, id)
 
   return (
     <div className="px-40 py-40 flex flex-col gap-8">
@@ -60,18 +65,20 @@ export default async function VerbShowPage(props: VerbShowPageProps) {
           <h1 className="text-3xl font-bold capitalize">{verb.title}</h1>
         </div>
 
-        <div className="flex justify-end items-center m-4">
-          <div className="flex gap-4">
-            <Link href={`/verbs/${id}/edit`} className="border rounded p-2">
-              Edit
-            </Link>
-            <form action={deleteVerbAction}>
-              <button className="bg-red-500 rounded p-2 text-white">
-                Delete
-              </button>
-            </form>
+        {session?.user && (
+          <div className="flex justify-end items-center m-4">
+            <div className="flex gap-4">
+              <Link href={`/verbs/${id}/edit`} className="border rounded p-2">
+                Edit
+              </Link>
+              <form action={deleteVerbAction}>
+                <button className="bg-red-500 rounded p-2 text-white">
+                  Delete
+                </button>
+              </form>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className="flex gap-4">
@@ -97,15 +104,15 @@ export default async function VerbShowPage(props: VerbShowPageProps) {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
 // this caching thing is solely production thing
 // prepare array of ids of existing verbs to cache their data for their view pages.
 export async function generateStaticParams() {
-  const verbs = await db.verb.findMany();
+  const verbs = await db.verb.findMany()
 
   return verbs.map((verb) => ({
     id: verb.id.toString(),
-  }));
+  }))
 }
