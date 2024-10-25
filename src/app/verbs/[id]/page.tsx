@@ -5,7 +5,7 @@ import type { Pronoun, Tense } from '@prisma/client'
 
 import { db } from '@/db'
 import { deleteVerb } from '@/actions'
-import TenseView from '@/components/tense-view'
+import TenseView from '@/components/verbs/tense-view'
 import { authOptions } from '@/auth'
 
 interface VerbShowPageProps {

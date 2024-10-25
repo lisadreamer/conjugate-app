@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { notFound } from "next/navigation";
 
-import VerbEditForm from "@/components/verb-edit-form";
+import VerbEditForm from "@/components/verbs/verb-edit-form";
 
 interface VerbEditPageProps {
   params: {
