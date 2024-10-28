@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth'
 import type { Pronoun, Tense } from '@prisma/client'
 
 import { db } from '@/db'
-import { deleteVerb } from '@/actions'
+import { deleteVerb, getPronouns } from "@/actions";
 import TenseView from '@/components/verbs/tense-view'
 import { authOptions } from '@/auth'
 
@@ -43,14 +43,7 @@ export default async function VerbShowPage(props: VerbShowPageProps) {
     { active: [], passive: [] } as Record<string, Tense[]>
   )
 
-  const pronounsArr = await db.pronoun.findMany()
-  const pronouns = pronounsArr.reduce(
-    (acc: Record<number, string>, pronoun: Pronoun) => {
-      acc[pronoun.id] = pronoun.name
-      return acc
-    },
-    {}
-  )
+  const pronouns = await getPronouns()
 
   if (!verb) {
     return notFound()
