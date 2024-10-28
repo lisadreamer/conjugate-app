@@ -1,1 +1,1 @@
-export { createVerb, updateVerb, deleteVerb } from "./verbs";
+export { createVerb, updateVerb, deleteVerb } from './verbs'

@@ -6,7 +6,7 @@ import { z } from 'zod'
 import { db } from '@/db'
 import { Verb } from '@prisma/client'
 
-interface CreateVerbFormState {
+interface VerbFormState {
   errors: {
     title?: string[]
     description?: string[]
@@ -14,16 +14,16 @@ interface CreateVerbFormState {
   }
 }
 
-const createVerbSchema = z.object({
+const verbSchema = z.object({
   title: z.string().min(3),
   description: z.string().min(5),
 })
 
 export async function createVerb(
-  formState: CreateVerbFormState,
+  formState: VerbFormState,
   formData: FormData
-): Promise<CreateVerbFormState> {
-  const result = createVerbSchema.safeParse({
+): Promise<VerbFormState> {
+  const result = verbSchema.safeParse({
     title: formData.get('title'),
     description: formData.get('description'),
   })
@@ -53,13 +53,36 @@ export async function createVerb(
   redirect(`/verbs/${verb.id}`)
 }
 
-export async function updateVerb(id: number, description: string) {
-  await db.verb.update({
-    where: { id },
-    data: { description },
+export async function updateVerb(
+  id: number,
+  formState: VerbFormState,
+  formData: FormData
+): Promise<VerbFormState> {
+  const result = verbSchema.safeParse({
+    title: formData.get('title'),
+    description: formData.get('description'),
   })
-  revalidatePath(`/verbs/${id}`)
-  redirect(`/verbs/${id}`)
+
+  if (!result.success) {
+    return { errors: result.error.flatten().fieldErrors }
+  }
+
+  let verb: Verb
+  try {
+    verb = await db.verb.update({
+      where: { id },
+      data: { title: result.data.title, description: result.data.description },
+    })
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { errors: { _form: [error.message] } }
+    } else {
+      return { errors: { _form: ['An unknown error occurred'] } }
+    }
+  }
+
+  revalidatePath(`/verbs/${verb.id}`)
+  redirect(`/verbs/${verb.id}`)
 }
 
 export async function deleteVerb(id: number) {

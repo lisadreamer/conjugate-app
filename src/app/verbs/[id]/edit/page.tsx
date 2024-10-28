@@ -22,7 +22,7 @@ export default async function VerbEditPage(props: VerbEditPageProps) {
   }
 
   return (
-    <div className="flex items-center px-40 py-40">
+    <div className="flex items-center justify-center px-40 py-40">
       <VerbEditForm verb={verb} />
     </div>
   );

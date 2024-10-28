@@ -1,7 +1,9 @@
 'use client'
 
 import type { Verb } from '@prisma/client'
+import { useFormState } from 'react-dom'
 import React from 'react'
+import { Input, Textarea, Button } from '@nextui-org/react'
 import { updateVerb } from '@/actions'
 import ProtectedPage from '@/components/protected-page'
 
@@ -10,35 +12,46 @@ interface VerbEditFormProps {
 }
 
 export default function VerbEditForm({ verb }: VerbEditFormProps) {
-  const [description, setDescription] = React.useState<string>(verb.description)
-  function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-    setDescription(event.target.value)
-  }
-
-  const editVerbAction = updateVerb.bind(null, verb.id, description)
+  const [formState, action] = useFormState(updateVerb.bind(null, verb.id), {
+    errors: {},
+  })
 
   return (
     <ProtectedPage>
-      <div className="flex flex-col justify-center gap-4">
-        <h1 className="text-2xl">
+      <div className="flex flex-col gap-4">
+        <h1 className="text-2xl my-5">
           Edit verb <b>{verb.title}</b>
         </h1>
-        <div className="flex gap-4">
-          <label className="w-20" htmlFor="description">
-            Translation:
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            className="border rounded p-2 w-full"
-            value={description}
-            onChange={handleChange}
+        <form action={action} className="flex flex-col justify-center gap-4">
+          <Input
+            name="title"
+            label="Title"
+            labelPlacement="outside"
+            placeholder="Title"
+            defaultValue={verb.title}
+            isInvalid={!!formState.errors.title}
+            errorMessage={formState.errors.title?.join(', ')}
           />
-        </div>
-        <form action={editVerbAction}>
-          <button type="submit" className="rounded bg-green-500 p-2">
+
+          <Textarea
+            name="description"
+            label="Translation"
+            labelPlacement="outside"
+            placeholder="Describe verb..."
+            defaultValue={verb.description}
+            isInvalid={!!formState.errors.description}
+            errorMessage={formState.errors.description?.join(', ')}
+          />
+
+          {formState.errors._form ? (
+            <div className="bg-red-200 border rounded border-red-400 p-2 ">
+              {formState.errors._form?.join(', ')}
+            </div>
+          ) : null}
+
+          <Button type="submit" color="success" className="text-white">
             Save
-          </button>
+          </Button>
         </form>
       </div>
     </ProtectedPage>
