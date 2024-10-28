@@ -3,6 +3,7 @@ import type { StaticImageData } from "next/image";
 
 interface HeroProps {
   title: string;
+  subTitle?: string;
   imgAlt: string;
   imgData: StaticImageData;
 }
@@ -18,8 +19,9 @@ export default function Hero(props: HeroProps) {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900"></div>
       </div>
-      <div className="absolute inset-0 flex justify-center items-center">
+      <div className="absolute inset-0 flex flex-col justify-center items-center gap-8">
         <h1 className="text-white text-6xl">{props.title}</h1>
+        <h2 className="text-white text-4xl">{props.subTitle}</h2>
       </div>
     </div>
   );
