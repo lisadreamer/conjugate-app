@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
-import type { Pronoun, Tense } from '@prisma/client'
+import type { Tense } from '@prisma/client'
 
 import { db } from '@/db'
 import { deleteVerb, getPronouns } from "@/actions";

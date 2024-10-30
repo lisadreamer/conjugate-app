@@ -1,11 +1,14 @@
-import Image from "next/image";
-import type { StaticImageData } from "next/image";
+import { Suspense } from 'react'
+import Image from 'next/image'
+import type { StaticImageData } from 'next/image'
+import SearchInput from '@/components/search-input'
 
 interface HeroProps {
-  title: string;
-  subTitle?: string;
-  imgAlt: string;
-  imgData: StaticImageData;
+  title: string
+  subTitle?: string
+  imgAlt: string
+  imgData: StaticImageData
+  hasSearch?: boolean
 }
 export default function Hero(props: HeroProps) {
   return (
@@ -21,8 +24,15 @@ export default function Hero(props: HeroProps) {
       </div>
       <div className="absolute inset-0 flex flex-col justify-center items-center gap-8">
         <h1 className="text-white text-6xl">{props.title}</h1>
-        <h2 className="text-white text-4xl">{props.subTitle}</h2>
+        {props.subTitle && (
+          <h2 className="text-white text-4xl">{props.subTitle}</h2>
+        )}
+        {props.hasSearch && (
+          <Suspense>
+            <SearchInput />
+          </Suspense>
+        )}
       </div>
     </div>
-  );
+  )
 }
