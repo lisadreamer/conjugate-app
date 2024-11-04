@@ -9,5 +9,7 @@ export async function search(formData: FormData) {
     redirect('/')
   }
 
-  redirect(`/search?term=${term}`)
+  const encodedTerm = encodeURIComponent(term as string)
+
+  redirect(`/search?term=${encodedTerm}`)
 }
