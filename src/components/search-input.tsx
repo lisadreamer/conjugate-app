@@ -43,7 +43,7 @@ export default function SearchInput() {
   )
 }
 
-export const SearchIcon = (props) => (
+export const SearchIcon = (props: { className: string }) => (
   <svg
     aria-hidden="true"
     fill="none"
