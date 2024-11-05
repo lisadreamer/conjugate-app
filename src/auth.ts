@@ -18,6 +18,7 @@ export const authOptions = {
       clientSecret: GITHUB_CLIENT_SECRET,
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     // temporary: fixing bug currently in next auth
     /*async session({ session, user }: any) {
